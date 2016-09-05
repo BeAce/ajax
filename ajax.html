@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击请求ajax</title>
+</head>
+<body>
+
+    <button id="btn">点击请求ajax</button>
+    <script>
+        window.onload = function () {
+            var httpReq = new XMLHttpRequest();
+            document.getElementById('btn').addEventListener('click' , function () {
+                ajax('test.xml');
+            });
+
+            function ajax(url) {
+                httpReq.onreadystatechange = alertContents;
+                httpReq.open('GET', url, true);
+                httpReq.send(null)
+            }
+
+            function alertContents() {
+                if(httpReq.readyState == 4) {
+                    if(httpReq.status == 200) {
+                        console.log(httpReq.responseText);
+                        var xmldoc = httpReq.responseXML;
+                        var rootNode = xmldoc.getElementsByTagName('root').item(0);
+                        console.log(rootNode);
+                        console.log(rootNode.firstChild.data);
+                    } else {
+                        alert('some problem happened on ajax');
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
